@@ -43,3 +43,6 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 # cocos-cutting
+# 调试启动
+### `npm run start`     react 启动
+### `npm run electron-start`  electron 启动
