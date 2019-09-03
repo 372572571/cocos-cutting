@@ -1,0 +1,21 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {
+        "semi": true,
+    },
+    "rules": {
+        "quote-props": false,
+        "no-console": false, // 关闭console告警
+        "semi": true,
+        "no-unwanted-initializer": true,
+        "deprecation": true,
+        "no-null-keyword": false, //不允许使用null关键字
+        "no-null-undefined-union": false,
+    },
+    "rulesDirectory": [
+        "src"
+    ],
+}

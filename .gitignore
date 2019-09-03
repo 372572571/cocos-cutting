@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+.vscode
+/build
+/tool-darwin-x64
 
 # testing
 /coverage
