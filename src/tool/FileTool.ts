@@ -1,26 +1,26 @@
-import shelljs from 'shelljs';
-import fsjs from 'fs';
+import fsjs from "fs";
+import shelljs from "shelljs";
 
 const electron = (window as any).electron;
 let shell = shelljs;
 let fs = fsjs;
-shell = (electron.remote.require('shelljs'));
-fs = (electron.remote.require('fs'));
+shell = (electron.remote.require("shelljs"));
+fs = (electron.remote.require("fs"));
 
 export class FileTool {
     // 设置非空文件
     public static setNotEmptyFIle(path: string, data: Object): Promise<any> {
-        console.log('debug', path)
+        console.log("debug", path);
         return new Promise((resolve, reject) => {
             shell.rm(path);
-            fs.writeFile(path, JSON.stringify(data), 'utf8', (err) => {
+            fs.writeFile(path, JSON.stringify(data), "utf8", (err) => {
                 if (err) {
                     reject(err);
                     return;
                 }
-                resolve('success');
-                return
-            })
+                resolve("success");
+                return;
+            });
         });
     }
 
@@ -30,30 +30,14 @@ export class FileTool {
      * @static
      * @memberof FileTool
      */
-    public static getFileList(path: string): Array<string> {
+    public static getFileList(path: string): string[] {
         return shell.ls(path);
     }
 
-    public static getFileContentByJson(path: string): Object {
-        return JSON.parse(shell.cat(path).toString())
+    public static getFileContentByJson(path: string): any {
+        return JSON.parse(shell.cat(path).toString());
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export function ArrayMd5(data: any) {
     // for test/debug
@@ -65,16 +49,16 @@ export function ArrayMd5(data: any) {
 
     // convert number to (unsigned) 32 bit hex, zero filled string
     function to_zerofilled_hex(n: any) {
-        var t1 = (n >>> 24).toString(16);
-        var t2 = (n & 0x00FFFFFF).toString(16);
+        const t1 = (n >>> 24).toString(16);
+        const t2 = (n & 0x00FFFFFF).toString(16);
         return "00".substr(0, 2 - t1.length) + t1 +
             "000000".substr(0, 6 - t2.length) + t2;
     }
 
     // convert a 64 bit unsigned number to array of bytes. Little endian
     function int64_to_bytes(num: any) {
-        var retval = [];
-        for (var i = 0; i < 8; i++) {
+        const retval = [];
+        for (let i = 0; i < 8; i++) {
             retval.push(num & 0xFF);
             num = num >>> 8;
         }
@@ -109,10 +93,10 @@ export function ArrayMd5(data: any) {
     }
     // convert the 4 32-bit buffers to a 128 bit hex string. (Little-endian is assumed)
     function int128le_to_hex(a: any, b: any, c: any, d: any) {
-        var ra = "";
-        var t = 0;
-        var ta = 0;
-        for (var i = 3; i >= 0; i--) {
+        let ra = "";
+        let t = 0;
+        let ta = 0;
+        for (let i = 3; i >= 0; i--) {
             ta = arguments[i];
             t = (ta & 0xFF);
             ta = ta >>> 8;
@@ -135,28 +119,28 @@ export function ArrayMd5(data: any) {
     //   fflog("input data type mismatch only support Uint8Array");
     //   return null;
     // }
-    var databytes = [];
-    for (var i = 0; i < data.byteLength; i++) {
+    let databytes = [];
+    for (let i = 0; i < data.byteLength; i++) {
         databytes.push(data[i]);
     }
 
     // save original length
-    var org_len = databytes.length;
+    const org_len = databytes.length;
 
     // first append the "1" + 7x "0"
     databytes.push(0x80);
 
     // determine required amount of padding
-    var tail = databytes.length % 64;
+    let tail = databytes.length % 64;
     // no room for msg length?
     if (tail > 56) {
         // pad to next 512 bit block
-        for (var i = 0; i < (64 - tail); i++) {
+        for (let i = 0; i < (64 - tail); i++) {
             databytes.push(0x0);
         }
         tail = databytes.length % 64;
     }
-    for (i = 0; i < (56 - tail); i++) {
+    for (let i = 0; i < (56 - tail); i++) {
         databytes.push(0x0);
     }
     // message length in bits mod 512 should now be 448
@@ -164,48 +148,46 @@ export function ArrayMd5(data: any) {
     databytes = databytes.concat(int64_to_bytes(org_len * 8));
 
     // initialize 4x32 bit state
-    var h0 = 0x67452301;
-    var h1 = 0xEFCDAB89;
-    var h2 = 0x98BADCFE;
-    var h3 = 0x10325476;
+    let h0 = 0x67452301;
+    let h1 = 0xEFCDAB89;
+    let h2 = 0x98BADCFE;
+    let h3 = 0x10325476;
 
     // temp buffers
-    var a = 0,
-        b = 0,
-        c = 0,
-        d = 0;
-
+    let a = 0;
+    let b = 0;
+    let c = 0;
+    let d = 0;
 
     function _add(n1: any, n2: any) {
-        return 0x0FFFFFFFF & (n1 + n2)
+        return 0x0FFFFFFFF & (n1 + n2);
     }
 
     // function update partial state for each run
-    var updateRun = function (nf: any, sin32: any, dw32: any, b32: any) {
-        var temp = d;
+    const updateRun = function(nf: any, sin32: any, dw32: any, b32: any) {
+        const temp = d;
         d = c;
         c = b;
-        //b = b + rol(a + (nf + (sin32 + dw32)), b32);
+        // b = b + rol(a + (nf + (sin32 + dw32)), b32);
         b = _add(b,
             rol(
                 _add(a,
-                    _add(nf, _add(sin32, dw32))
-                ), b32
-            )
+                    _add(nf, _add(sin32, dw32)),
+                ), b32,
+            ),
         );
         a = temp;
     };
 
-
     // Digest message
-    for (i = 0; i < databytes.length / 64; i++) {
+    for (let i = 0; i < databytes.length / 64; i++) {
         // initialize run
         a = h0;
         b = h1;
         c = h2;
         d = h3;
 
-        var ptr = i * 64;
+        const ptr = i * 64;
 
         // do 64 runs
         updateRun(fF(b, c, d), 0xd76aa478, bytes_to_int32(databytes, ptr), 7);
@@ -281,4 +263,4 @@ export function ArrayMd5(data: any) {
     }
     // Done! Convert buffers to 128 bit (LE)
     return int128le_to_hex(h3, h2, h1, h0).toLowerCase();
-};
+}

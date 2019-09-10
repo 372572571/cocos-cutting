@@ -1,23 +1,23 @@
-import { ChildProcess, spawn, ChildProcessWithoutNullStreams } from "child_process";
-let process = spawn
+import { ChildProcess, ChildProcessWithoutNullStreams, spawn } from "child_process";
+let process = spawn;
 
 const electron = (window as any).electron;
 if (!process) {
-    process = electron.remote.require('child_process').spawn
+    process = electron.remote.require("child_process").spawn;
 }
 
-const EVENT_NAME_DATA = "data"
-const EVENT_NAME_CLOSE = "close"
+const EVENT_NAME_DATA = "data";
+const EVENT_NAME_CLOSE = "close";
 
 export class ProcessTool {
-
-    private _command: ChildProcessWithoutNullStreams | ChildProcess | null = null;
 
     public error_call_back: (error: any) => void = this.defaultCallBack; // 失败回调
 
     public exit_call_back: (code: number) => void = this.defaultCallBack; // 退出回调
 
     public out_call_back: (data: any) => void = this.defaultCallBack; // 输出回调
+
+    private _command: ChildProcessWithoutNullStreams | ChildProcess | null = null;
 
     constructor(command: any, ops: any[]) {
         // 异步地衍生子进程
@@ -34,11 +34,11 @@ export class ProcessTool {
     }
     // 默认回调
     private defaultCallBack(data: any): void {
-        var dataString = "";
-        for (var i = 0; i < data.length; i++) {
+        let dataString = "";
+        for (let i = 0; i < data.length; i++) {
             dataString += String.fromCharCode(data[i]);
 
         }
-        console.log('默认回调', dataString);
+        console.log("默认回调", dataString);
     }
 }

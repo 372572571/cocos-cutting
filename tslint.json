@@ -4,7 +4,7 @@
         "tslint:recommended"
     ],
     "jsRules": {
-        "semi": true,
+        "semi": true
     },
     "rules": {
         "quote-props": false,
@@ -14,8 +14,22 @@
         "deprecation": true,
         "no-null-keyword": false, //不允许使用null关键字
         "no-null-undefined-union": false,
+        "type-literal-delimiter": true,
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "no-bitwise": false,
+        "ariable-name": false,
+        "interface-name": false,
+        "max-line-length": false,
+        "variable-name": false,
+        "prefer-for-of": false,
+        "forin": false,
+        "object-literal-sort-keys": false,
+        "no-empty": false
     },
     "rulesDirectory": [
         "src"
-    ],
+    ]
 }

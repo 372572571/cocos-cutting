@@ -1,12 +1,13 @@
 import * as React from 'react';
-import {  Route, Link, HashRouter } from 'react-router-dom';
+import { Route, Link, HashRouter } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import { AddProject } from '../featureCoponent/addProject/AddProject';
 import { ProjectList } from '../featureCoponent/projectList/ProjectList';
+import { ProjectContent } from '../featureCoponent/ProjectContent/ProjectContent'
 // import '../App.css'
 import './Index.css'
 // const supportsHistory = 'pushState' in window.history
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer, Sider, Content } = Layout;
 export interface Props {
     // 属性
 }
@@ -34,16 +35,16 @@ export class Index extends React.Component<Props, object> {
                                 </Link>
                             </Menu.Item>
                         </Menu>
-
                     </Sider>
 
                     <Layout>
-                        <Header style={{ backgroundColor: '#fff' }}> </Header>
-                        {/* 内容区域 */}
+                        {/* <Header style={{ backgroundColor: '#fff' }}> </Header> */}
+                        {/* 内容区域 */}    
                         <Content style={{ backgroundColor: '#fff' }}>
                             {/* <Switch> */}
                             <Route exact path="/" component={AddProject} />
                             <Route exact path="/projectList" component={ProjectList} />
+                            <Route exact path="/ProjectContent" component={ProjectContent} />
                             {/* </Switch> */}
                         </Content>
 
