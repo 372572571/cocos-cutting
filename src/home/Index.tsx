@@ -3,7 +3,8 @@ import { Route, Link, HashRouter } from 'react-router-dom';
 import { Layout, Menu, Icon } from 'antd';
 import { AddProject } from '../featureCoponent/addProject/AddProject';
 import { ProjectList } from '../featureCoponent/projectList/ProjectList';
-import { ProjectContent } from '../featureCoponent/ProjectContent/ProjectContent'
+import { ProjectContent } from '../featureCoponent/ProjectContent/ProjectContent';
+import { GlobalSetting } from '../featureCoponent/GlobalSetting/GlobalSetting';
 // import '../App.css'
 import './Index.css'
 // const supportsHistory = 'pushState' in window.history
@@ -21,7 +22,7 @@ export class Index extends React.Component<Props, object> {
                     {/* 选项区域 */}
                     <Sider className="Index_Sider" >
                         {/* 菜单 */}
-                        <Menu>
+                        <Menu className="Index_Left_Menu">
                             <Menu.Item>
                                 <Link to="/">
                                     <Icon type="folder-add" />
@@ -30,8 +31,14 @@ export class Index extends React.Component<Props, object> {
                             </Menu.Item>
                             <Menu.Item onClick={this.goProjectList.bind(this)}>
                                 <Link to="/projectList">
-                                    <Icon type="folder-add" />
+                                    <Icon type="ordered-list" />
                                     <span>项目列表</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item onClick={this.goProjectList.bind(this)}>
+                                <Link to="/globalSetting">
+                                    <Icon type="setting" />
+                                    <span>全局设置</span>
                                 </Link>
                             </Menu.Item>
                         </Menu>
@@ -39,17 +46,19 @@ export class Index extends React.Component<Props, object> {
 
                     <Layout>
                         {/* <Header style={{ backgroundColor: '#fff' }}> </Header> */}
-                        {/* 内容区域 */}    
-                        <Content style={{ backgroundColor: '#fff' }}>
+                        {/* 内容区域 */}
+                        {/* <Content style={{ backgroundColor: '#fff' }}> */}
+                        <Content>
                             {/* <Switch> */}
                             <Route exact path="/" component={AddProject} />
                             <Route exact path="/projectList" component={ProjectList} />
                             <Route exact path="/ProjectContent" component={ProjectContent} />
+                            <Route exact path="/globalSetting" component={GlobalSetting} />
                             {/* </Switch> */}
                         </Content>
 
                         {/* 底部 */}
-                        <Footer style={{ backgroundColor: '#fff' }}>
+                        <Footer style={{ backgroundColor: 'silver', height: '8vh', marginLeft: '5px', marginRight: '5px' }}>
 
                         </Footer>
                     </Layout>

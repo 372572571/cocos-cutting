@@ -1,8 +1,15 @@
 .Index_Sider{
-    background-color: #797979 !important;
+    background-color: #ffffff !important;
     /* 100vh 视图高 */
-    min-height: 100vh; 
+    /* min-height: 100vh!important;  */
     min-width:20vw !important;
     /* width: 450px; */
 
+}
+
+/* 左侧菜单固定 */
+.Index_Left_Menu{
+    position: fixed;
+    width: 20vw;
+    min-height: 100vh!important; 
 }

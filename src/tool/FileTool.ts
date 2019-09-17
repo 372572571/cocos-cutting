@@ -34,8 +34,26 @@ export class FileTool {
         return shell.ls(path);
     }
 
+    /**
+     * 获取文件内容
+     *
+     * @static
+     * @param {string} path
+     * @returns {*}
+     * @memberof FileTool
+     */
     public static getFileContentByJson(path: string): any {
-        return JSON.parse(shell.cat(path).toString());
+        let data = shell.cat(path).toString();
+        if (data) { return JSON.parse(shell.cat(path).toString()); }
+        return data;
+    }
+
+    public static saveFile(path: string, new_info: any) {
+        if (!new_info) {
+            return;
+        }
+        shell.rm(path); // 删除
+        fs.writeFileSync(path, JSON.stringify(new_info), "utf8"); // 重新写入文件
     }
 }
 
@@ -164,7 +182,7 @@ export function ArrayMd5(data: any) {
     }
 
     // function update partial state for each run
-    const updateRun = function(nf: any, sin32: any, dw32: any, b32: any) {
+    const updateRun = function (nf: any, sin32: any, dw32: any, b32: any) {
         const temp = d;
         d = c;
         c = b;

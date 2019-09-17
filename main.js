@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain,dialog } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const path = require('path')
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -17,15 +17,20 @@ function createWindow() {
       preload: path.join(__dirname, './build/renderer.js')
     }
   })
-
+  console.log('jsw', process.argv[2])
   // and load the index.html of the app.
-  // mainWindow.loadFile('./build/index.html')
-  // 窗口加载url react调试用
-  mainWindow.loadURL('http://localhost:3000/index.html')
+  if (process.argv[2]) {
+    // 窗口加载url react调试用
+    mainWindow.loadURL('http://localhost:3000/index.html')
+    console.log('使用远程url')
 
-  // Open the DevTools.
-  // 打开开发者工具
-  mainWindow.webContents.openDevTools()
+    // Open the DevTools.
+    // 打开开发者工具
+    mainWindow.webContents.openDevTools()
+  } else {
+    // 正式
+    mainWindow.loadFile('./build/index.html')
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

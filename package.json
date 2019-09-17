@@ -28,11 +28,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-start": "electron .",
-    "package": "electron-packager . tool –darwin  --overwrite true –out /Users/liuyonglong/tool/tool –arch=x64 –electron-version=5.0.7"
+    "electron-start": "electron . true",
+    "package": "electron-packager . tool –darwin  --overwrite true –out /Users/liuyonglong/tool/tool –arch=x64 –electron-version=5.0.7 -icon=public/favicon.ico"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "cocos工具"
   },
   "browserslist": {
     "production": [

@@ -15,10 +15,13 @@
         "no-null-keyword": false, //不允许使用null关键字
         "no-null-undefined-union": false,
         "type-literal-delimiter": true,
+        "ordered-imports":false,
         "semicolon": [
             true,
             "always"
         ],
+        "member-ordering": false,
+        "prefer-const": false,
         "no-bitwise": false,
         "ariable-name": false,
         "interface-name": false,
@@ -27,7 +30,9 @@
         "prefer-for-of": false,
         "forin": false,
         "object-literal-sort-keys": false,
-        "no-empty": false
+        "no-empty": false,
+        "quotemark": false,
+        "curly":false
     },
     "rulesDirectory": [
         "src"
