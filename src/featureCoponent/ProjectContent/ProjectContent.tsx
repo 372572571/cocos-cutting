@@ -213,7 +213,7 @@ export class ProjectContent extends React.Component<Props, object> {
 
                 // 设置失败回调
                 unpack.error = (error) => {
-                    Dialog.ShowError({ title: '执行完毕', content: '文件切割失败！' });
+                    Dialog.ShowError({ title: '执行完毕', content: `${error} 文件切割失败!` });
                     this._lock = false;
                 };
                 // 设置成功回调

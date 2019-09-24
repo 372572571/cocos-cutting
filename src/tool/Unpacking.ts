@@ -179,16 +179,18 @@ export class Unpacking {
             // 剪切文件
             shell.mv(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, val), jsPath.join(path, m, val));
             if (this._totalManifestData.assets[val] === undefined) {
-                console.log("分包资源丢失", val);
+                console.log("分包资源丢失,或不在包内", val);
+                delete(manifest.assets[val]);
                 throw new Error("分包资源丢失");
+                // continue;
             }
             //
             // 添加判断如果是 impotr 资源 则不清理 主包清单
-            // let reg = new RegExp('^(res/import)')
-            // reg.test(a,reg)
+            // let reg = new RegExp('^(res/import)');
+            // reg.test(a, reg)
             // if (reg.test(this._totalManifestData.assets[val])) {
-            //     manifest.assets[val] = this._totalManifestData.assets[val]
-            //     console.log('不清理')
+            //     manifest.assets[val] = this._totalManifestData.assets[val];
+            //     console.log('不清理');
             // } else {
             manifest.assets[val] = this._totalManifestData.assets[val];
             delete (this._totalManifestData.assets[val]); // 清理主包资源

@@ -29,6 +29,7 @@ function createWindow() {
     mainWindow.webContents.openDevTools()
   } else {
     // 正式
+    mainWindow.webContents.openDevTools()
     mainWindow.loadFile('./build/index.html')
   }
 
