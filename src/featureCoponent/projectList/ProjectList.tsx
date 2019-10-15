@@ -59,7 +59,7 @@ export class ProjectList extends React.Component<Props, object> {
 
     public enter(item: { [key: string]: any }): any {
 
-        let res = { pathname: '/ProjectContent', state: item }
+        let res = { pathname: '/ProjectContent', state: item };
 
         return res;
     }

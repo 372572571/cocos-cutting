@@ -1,13 +1,20 @@
 import fsjs from "fs";
 import shelljs from "shelljs";
+import _md5 from "crypto";
 
 const electron = (window as any).electron;
 let shell = shelljs;
 let fs = fsjs;
+let md5 = _md5
 shell = (electron.remote.require("shelljs"));
 fs = (electron.remote.require("fs"));
+md5 = electron.remote.require("crypto");
 
 export class FileTool {
+
+    public static get md5() {
+        return md5.createHash('md5');
+    }
     // 设置非空文件
     public static setNotEmptyFIle(path: string, data: Object): Promise<any> {
         console.log("debug", path);

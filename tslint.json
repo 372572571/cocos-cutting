@@ -15,7 +15,7 @@
         "no-null-keyword": false, //不允许使用null关键字
         "no-null-undefined-union": false,
         "type-literal-delimiter": true,
-        "ordered-imports":false,
+        "ordered-imports": false,
         "semicolon": [
             true,
             "always"
@@ -32,7 +32,9 @@
         "object-literal-sort-keys": false,
         "no-empty": false,
         "quotemark": false,
-        "curly":false
+        "curly": false,
+        "eofline": false,
+        "max-classes-per-file": false
     },
     "rulesDirectory": [
         "src"

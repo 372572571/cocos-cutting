@@ -5,6 +5,7 @@ import { AddProject } from '../featureCoponent/addProject/AddProject';
 import { ProjectList } from '../featureCoponent/projectList/ProjectList';
 import { ProjectContent } from '../featureCoponent/ProjectContent/ProjectContent';
 import { GlobalSetting } from '../featureCoponent/GlobalSetting/GlobalSetting';
+import { SubGameVersionCheck } from '../featureCoponent/SubGameVersionCheck/SubGameVersionCheck';
 // import '../App.css'
 import './Index.css'
 // const supportsHistory = 'pushState' in window.history
@@ -54,6 +55,7 @@ export class Index extends React.Component<Props, object> {
                             <Route exact path="/projectList" component={ProjectList} />
                             <Route exact path="/ProjectContent" component={ProjectContent} />
                             <Route exact path="/globalSetting" component={GlobalSetting} />
+                            <Route exact path="/SubGameVersionCheck" component={SubGameVersionCheck} />
                             {/* </Switch> */}
                         </Content>
 

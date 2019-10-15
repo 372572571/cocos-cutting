@@ -46,6 +46,8 @@ export class Unpacking {
     // 总清单文件
     private _totalManifestData: any = {};
 
+    private _modules: string[] = ['hall-asset']; // 搜索路径配置文件
+
     /**
      * Creates an instance of Unpacking.
      * @memberof Unpacking
@@ -80,6 +82,11 @@ export class Unpacking {
         const _md = ArrayMd5(_t);
         // console.log('md5', _md)
         fs.writeFileSync(jsPath.join(this.projectPath, _BUILD_PATH_, _md), JSON.stringify(this._totalManifestData)); // 清单文件
+
+        // 输出搜索路径配置 Search path
+        fs.writeFile(jsPath.join(this.projectPath, _BUILD_PATH_, 'SearchPath.json'), JSON.stringify(this._modules), "utf8", () => {
+            console.log("搜索路径配置输出完毕");
+        });
         // localStorage.setItem('PackMd5','')
         fs.readFile(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "main.js"), "utf8", (err: any, data: string) => {
             if (err) {
@@ -90,7 +97,6 @@ export class Unpacking {
             data = data.replace("// localStorage.setItem PackMd5", `localStorage.setItem('PackMd5','${_md}')`);
             shell.rm(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "main.js"));
             fs.writeFile(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "main.js"), data, "utf8", () => {
-                console.log("main.js 覆盖完毕");
                 this.success("main.js 覆盖完毕");
             });
         });
@@ -99,7 +105,6 @@ export class Unpacking {
         shell.rm(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "res", "raw-assets", _MANIFEST_NAME_));
         fs.writeFile(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "res", "raw-assets", _MANIFEST_NAME_),
             JSON.stringify(this._totalManifestData), "utf8", () => {
-                console.log("主包资源清单覆盖完毕");
                 this.success("主包资源清单覆盖完毕");
             });
     }
@@ -180,23 +185,14 @@ export class Unpacking {
             shell.mv(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, val), jsPath.join(path, m, val));
             if (this._totalManifestData.assets[val] === undefined) {
                 console.log("分包资源丢失,或不在包内", val);
-                delete(manifest.assets[val]);
+                delete (manifest.assets[val]);
                 throw new Error("分包资源丢失");
                 // continue;
             }
-            //
-            // 添加判断如果是 impotr 资源 则不清理 主包清单
-            // let reg = new RegExp('^(res/import)');
-            // reg.test(a, reg)
-            // if (reg.test(this._totalManifestData.assets[val])) {
-            //     manifest.assets[val] = this._totalManifestData.assets[val];
-            //     console.log('不清理');
-            // } else {
             manifest.assets[val] = this._totalManifestData.assets[val];
             delete (this._totalManifestData.assets[val]); // 清理主包资源
-            // }
-
         }
+        this._modules.push(m);
         // 输出分包清单
         fs.writeFile(jsPath.join(path, m, _MANIFEST_NAME_), JSON.stringify(manifest), "utf8", () => {
             console.log(m, "分包清单输出完毕");

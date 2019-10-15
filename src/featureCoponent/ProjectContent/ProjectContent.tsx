@@ -2,6 +2,7 @@
 import * as React from 'react';
 import './ProjectContent.css';
 import { Descriptions, Badge, Switch, Input, Button } from 'antd';
+import { Link } from 'react-router-dom';
 import path_js from 'path';
 import { FileTool } from '../../tool/FileTool';
 import { ProjectTool } from '../../tool/ProjectTool';
@@ -85,6 +86,11 @@ export class ProjectContent extends React.Component<Props, object> {
             <Button type="primary" onClick={this.save.bind(this)}>保存</Button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button type="primary" onClick={this.runScript.bind(this)}>分包开始</Button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <Link to={this.toVersionCheck()}>
+                <Button type="primary">VersionCheck</Button>
+            </Link>
+
         </div >;
     }
 
@@ -116,7 +122,7 @@ export class ProjectContent extends React.Component<Props, object> {
         for (let i = 0; i < modules.length; i++) {
             let item: any = modules[i];
             if (!this._file_info.modules[item.name]) {
-                this._file_info.modules[item.name] = { name: item.name, isShield: true }
+                this._file_info.modules[item.name] = { name: item.name, isShield: true };
             }
         }
         this.showModuleInfo();
@@ -131,7 +137,7 @@ export class ProjectContent extends React.Component<Props, object> {
      */
     private showModuleInfo(): void {
         let temp_modules = Object.values(this._file_info.modules);
-        console.log(temp_modules);
+        // console.log(temp_modules);
         let res: any[] = [];
         let version: any[] = [];
         for (let i = 0; i < temp_modules.length; i++) {
@@ -230,9 +236,27 @@ export class ProjectContent extends React.Component<Props, object> {
             }
         };
         process.run(); // 运行生成热更新
-
     }
 
+    // 版本比较
+    public toVersionCheck(): any {
+        if (this._lock) return;
+        this._lock = true;
+        let data = [];
+        // this._file_info.modules,
+        for (let key in this._file_info.modules) {
+            if (this._file_info.modules[key].isShield) {
+                data.push(key);
+            }
+        }
+        let obj = JSON.parse(JSON.stringify({ mod: data, url: this._file_info.hotUpdateUrl, project_path: this._file_info.path }))
+        console.log(this._file_info);
+        let res = {
+            pathname: '/SubGameVersionCheck', state: obj,
+        };
+        this._lock = false;
+        return res;
+    }
 }
 
 export interface ModuleItemInfo {

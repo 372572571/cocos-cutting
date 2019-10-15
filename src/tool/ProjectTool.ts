@@ -25,7 +25,7 @@ export class ProjectTool {
                 res.push({ name: item.name });
             }
         }
-        console.log("jsw 测试", res);
+        // console.log("jsw 测试", res);
         return res;
     }
 
