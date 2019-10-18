@@ -9,10 +9,12 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    webPreferences: { webSecurity: false },
     width: 1560,
     height: 720,
     webPreferences: {
       nodeIntegration: false,
+      webSecurity: false,
       // preload: path.join(__dirname, 'preload.js')
       preload: path.join(__dirname, './build/renderer.js')
     }

@@ -178,7 +178,7 @@ export class BrickHttp {
      * @memberof Http
      */
     public get<T>(url: string, params?: {}): Promise<T> {
-        return this.http.get<T>(url, params)
+        return this.http.get<T>(url, params);
     }
 
     /**

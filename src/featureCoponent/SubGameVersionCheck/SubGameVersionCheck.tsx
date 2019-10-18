@@ -92,8 +92,10 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
         for (let i = 0; i < this._mods.length; i++) {
             let t = FileTool.getFileContentByJson(this._mods[i].manifestPath);
             t.version = this._mods[i].nativeVerSion;
-            let n = t;
-            FileTool.saveFile(this._mods[i].manifestPath, n);
+            FileTool.saveFile(this._mods[i].manifestPath, t);
+            let v = FileTool.getFileContentByJson(this._mods[i].versionPath);
+            v.version = this._mods[i].nativeVerSion;
+            FileTool.saveFile(this._mods[i].versionPath, v);
         }
         Dialog.ShowInfo({ title: "提示", content: "修改完成！" });
         this._lock = false;

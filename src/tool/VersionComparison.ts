@@ -24,6 +24,7 @@ export class VersionComparison {
                         remoteVerSion: res.version,
                         manifestPath: m_path,
                         name: m_name,
+                        versionPath: `${base_path}/unpack/${m_name}/version.manifest`,
                     };
                     resolve(info);
                     return;
@@ -37,5 +38,6 @@ export interface ModuleVersionInfo {
     nativeVerSion: string; // 本地版本
     remoteVerSion: string; // 远程版本
     manifestPath: string; // manifest文件路径
+    versionPath: string;
     name: string;
 }
