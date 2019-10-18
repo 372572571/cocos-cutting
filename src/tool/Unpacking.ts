@@ -210,8 +210,8 @@ export class Unpacking {
         const url = this._totalManifestData.packageUrl + m + "/";
         const manifest: any = {
             packageUrl: url,
-            remoteManifestUrl: `${url}${m}${_MANIFEST_NAME_}`,
-            remoteVersionUrl: `${url}${m}${_VERSION_NAME_}`,
+            remoteManifestUrl: `${url}${_MANIFEST_NAME_}`,
+            remoteVersionUrl: `${url}${_VERSION_NAME_}`,
             version: this.projectFile.modules[m].version ? this.projectFile.modules[m].version : this.projectFile.version,
             assets: {},
             searchPaths: [`${m}`],
@@ -224,8 +224,8 @@ export class Unpacking {
         const url = this._totalManifestData.packageUrl + m + "/";
         const version = {
             packageUrl: url,
-            remoteManifestUrl: `${url}${m}${_MANIFEST_NAME_}`,
-            remoteVersionUrl: `${url}${m}${_VERSION_NAME_}`,
+            remoteManifestUrl: `${url}${_MANIFEST_NAME_}`,
+            remoteVersionUrl: `${url}${_VERSION_NAME_}`,
             version: this.projectFile.modules[m].version ? this.projectFile.modules[m].version : this.projectFile.version,
         };
 
