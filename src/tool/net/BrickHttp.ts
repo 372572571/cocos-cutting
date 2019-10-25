@@ -70,13 +70,14 @@ class HttpRely implements IOC_Http {
                     try {
                         response = JSON.parse(response);
                         // 判断是否解析成功,如果还是字符串在解析一次
-                        if (typeof response === 'string') {
-                            response = JSON.parse(response);
-                        }
+                        // if (typeof response === 'string') {
+                        //     response = JSON.parse(response);
+                        // }
                         resolve(response);
                     } catch (error) {
                         // 可能数据是空的json解析报错
-                        // console.warn(error)
+                        console.warn(error);
+                        reject(error);
                     }
                 }
                 if (xhr.readyState === 4 && (xhr.status !== 200)) {

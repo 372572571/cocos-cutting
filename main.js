@@ -9,7 +9,6 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    webPreferences: { webSecurity: false },
     width: 1560,
     height: 720,
     webPreferences: {

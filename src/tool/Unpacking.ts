@@ -75,9 +75,8 @@ export class Unpacking {
 
         // 替换主包文件
         shell.rm(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, _MANIFEST_NAME_));
-        fs.writeFileSync(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, _MANIFEST_NAME_),
-            JSON.stringify(this._totalManifestData), "utf8",
-        );
+        fs.writeFileSync(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, _MANIFEST_NAME_), JSON.stringify(this._totalManifestData), "utf8");
+
         const _t = fs.readFileSync(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, _MANIFEST_NAME_));
         const _md = ArrayMd5(_t);
         // console.log('md5', _md)
@@ -103,10 +102,9 @@ export class Unpacking {
 
         // 替换资源目录下清单
         shell.rm(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "res", "raw-assets", _MANIFEST_NAME_));
-        fs.writeFile(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "res", "raw-assets", _MANIFEST_NAME_),
-            JSON.stringify(this._totalManifestData), "utf8", () => {
-                this.success("主包资源清单覆盖完毕");
-            });
+        console.log('jsw path', jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "res", "raw-assets", _MANIFEST_NAME_))
+        fs.writeFileSync(jsPath.join(this.projectPath, _BUILD_JSB_LINK_, "res", "raw-assets", _MANIFEST_NAME_), JSON.stringify(this._totalManifestData), "utf8");
+        this.success("主包资源清单覆盖完毕");
     }
 
     // 初始化屏蔽模块
