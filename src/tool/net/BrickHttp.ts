@@ -113,7 +113,10 @@ class HttpRely implements IOC_Http {
      * @memberof HttpRely
      */
     private getParams(params: { [key: string]: any }): string {
-        let temp: string = '?'
+        if (!params) {
+            return '';
+        }
+        let temp: string = '?';
         for (let index in params) {
             if (temp === '?') {
                 temp = `${temp}${index}=${params[index]}`;
@@ -133,7 +136,7 @@ class HttpRely implements IOC_Http {
      */
     private setHeaders(xhr: XMLHttpRequest) {
         for (let index in this.headers) {
-            console.log(index, this.headers[index])
+            console.log(index, this.headers[index]);
             xhr.setRequestHeader(index, this.headers[index]);
         }
     }
