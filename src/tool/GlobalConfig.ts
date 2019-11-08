@@ -24,4 +24,13 @@ export class GlobalConfig {
         }
         return res;
     }
+
+    public static getNode(): string {
+        let res = 'node';
+        let temp = FileTool.getFileContentByJson(GlobalConfig._globalConfigFilePth);
+        if (temp[res]) {
+            res = temp[res];
+        }
+        return res;
+    }
 }

@@ -29,6 +29,9 @@ export class VersionComparison {
                     resolve(info);
                     return;
                 }
+            }).catch((err) => {
+                console.error('Game info error', err);
+                resolve(2);
             });
         });
     }

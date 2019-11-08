@@ -1,8 +1,6 @@
 {
   "name": "tool",
   "version": "0.1.0",
-
-  
   "private": true,
   "main": "main.js",
   "dependencies": {
@@ -15,7 +13,6 @@
     "@types/react-router-dom": "^4.3.4",
     "@types/shelljs": "^0.8.5",
     "antd": "^3.20.7",
-    "electron": "^5.0.7",
     "fs": "0.0.1-security",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -31,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-start": "electron . true",
-    "package": "electron-packager . tool –darwin  --overwrite true –out /Users/liuyonglong/tool/tool –arch=x64 –electron-version=5.0.7 -icon=public/favicon.ico"
+    "package": "electron-packager . tool –darwin  --overwrite true –out /Users/liuyonglong/src/Electron/cocos-cutting –arch=x64 -electron-version=7.1.0 "
   },
   "eslintConfig": {
     "extends": "cocos工具"
@@ -49,7 +46,8 @@
     ]
   },
   "devDependencies": {
-    "electron-packager": "^14.0.2"
+    "electron": "^7.1.0",
+    "electron-packager": "^14.1.0"
   },
   "homepage": "."
 }

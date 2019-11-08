@@ -210,7 +210,7 @@ export class ProjectContent extends React.Component<Props, object> {
         let version = this._file_info.version; // 主板号
         console.log('jsw ', `${info.path}/${PY_SCRIPT_PATH}`, path.basename(info.path), url, version, info.path);
         // 缺少版本文件生成
-        let process = new ProcessTool(GlobalConfig.getPython3(), [`${info.path}/${PY_SCRIPT_PATH}`, path.basename(info.path), url, version, info.path]);
+        let process = new ProcessTool(GlobalConfig.getPython3(), [`${info.path}/${PY_SCRIPT_PATH}`, path.basename(info.path), url, version, info.path, GlobalConfig.getNode()]);
         process.exit_call_back = (code) => {
             console.log('任务结束', code);
             if (code === 0) {

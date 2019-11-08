@@ -75,9 +75,6 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
             </Descriptions.Item>);
         }
         this.setState({ module: temp });
-        // temp.push(<Descriptions.Item span={3} key={val.name} label={val.name}>
-        //     <Input id={val.name} disabled={!val.isShield} defaultValue={val.version ? val.version : '0.0.1'} onChange={this.updateVersionInfo.bind(this)} />
-        // </Descriptions.Item>);
     }
 
     public updateVersionInfo(e: any): void {

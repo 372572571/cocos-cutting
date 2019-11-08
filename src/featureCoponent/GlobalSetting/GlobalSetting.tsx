@@ -26,10 +26,9 @@ export class GlobalSetting extends React.Component<Props, object> {
      */
     public componentWillMount() {
         // 获取配置文件信息
-        console.log('jsw config path', path.join((window as any).dir_name, `config.json`));
         let res: ConfigJson = FileTool.getFileContentByJson(path.join((window as any).dir_name, `config.json`));
         if (!res) {
-            console.log('jsw 没有配置文件');
+            console.error('debug 没有配置文件');
         } else {
             this._config_data = res;
         }
@@ -41,6 +40,9 @@ export class GlobalSetting extends React.Component<Props, object> {
             <Descriptions title="全局设置" bordered>
                 <Descriptions.Item label="Python3-安装路径" span={1}>
                     <Input id='python3' defaultValue={this._config_data.python3} onChange={this.upDateConfig.bind(this)} />
+                </Descriptions.Item>
+                <Descriptions.Item label="Node-安装路径" span={1}>
+                    <Input id='node' defaultValue={this._config_data.node} onChange={this.upDateConfig.bind(this)} />
                 </Descriptions.Item>
             </Descriptions>
             <br />
@@ -59,6 +61,7 @@ export class GlobalSetting extends React.Component<Props, object> {
 
     public save() {
         // 保存配置
+        console.log('path.join((window as any).dir_name, `config.json`)', path.join((window as any).dir_name, `config.json`));
         FileTool.saveFile(path.join((window as any).dir_name, `config.json`), this._config_data);
         Dialog.ShowInfo({ title: '提示', content: '保存结束' });
     }
@@ -67,4 +70,5 @@ export class GlobalSetting extends React.Component<Props, object> {
 interface ConfigJson {
     python3?: string; // python3 路径
     adb?: string; // android adb 路径
+    node?: string;
 }
