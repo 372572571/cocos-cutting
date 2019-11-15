@@ -1,6 +1,7 @@
 import fsjs from "fs";
 import shelljs from "shelljs";
 import _md5 from "crypto";
+// import _archive from "archive";
 
 const electron = (window as any).electron;
 let shell = shelljs;
@@ -61,6 +62,20 @@ export class FileTool {
         }
         shell.rm(path); // 删除
         fs.writeFileSync(path, JSON.stringify(new_info), "utf8"); // 重新写入文件
+    }
+
+    // 压缩文件
+    public static zipDir(file_dir: string, name: string, p: string): void {
+        console.log(`zip ${name}.zip ${file_dir}`);
+        // shell.exec()
+        shell.cd(p);
+        shell.exec(`zip -r ${name}.zip ${file_dir}`, { async: false }, (code => {
+            if (code === 0) {
+                console.log(`${name}`, '压缩成功');
+            } else {
+                console.error(`${name}`, '压缩失败！');
+            }
+        }));
     }
 }
 

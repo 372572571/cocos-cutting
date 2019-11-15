@@ -33,7 +33,7 @@ const _NOT: string = "N/A";
 // 添加项目 拖拽
 export class ProjectContent extends React.Component<Props, object> {
     private suffix: string = ".cocos_project";
-
+    private file_path: string = '';
     public state: state = {
         project_name: _NOT,
         project_version: _NOT,
@@ -51,7 +51,7 @@ export class ProjectContent extends React.Component<Props, object> {
     public componentWillMount() {
         // 获取路由信息
         // console.log('this.props.location', this.props);
-        // console.log('this.props.location.state', this.props.location.state);
+        console.log('this.props.location.state', this.props.location.state);
         this.getProjectInfo(this.props.location.state);
     }
 
@@ -104,6 +104,7 @@ export class ProjectContent extends React.Component<Props, object> {
     private getProjectInfo(data: { name: string, path: string }) {
         if (!data) return;
         let res = FileTool.getFileContentByJson(data.path);
+        this.file_path = data.path;
         this._file_info = res;
         if (!res) return;
         this.setModules(ProjectTool.getModuleInfo(res.path));
@@ -208,7 +209,7 @@ export class ProjectContent extends React.Component<Props, object> {
         let info = this._file_info;
         let url = this._file_info.hotUpdateUrl; // 热更地址
         let version = this._file_info.version; // 主板号
-        console.log('jsw ', `${info.path}/${PY_SCRIPT_PATH}`, path.basename(info.path), url, version, info.path);
+        console.log('jsw ', `${info.path}/${PY_SCRIPT_PATH}`, path.basename(info.path), url, version, info.path, GlobalConfig.getNode());
         // 缺少版本文件生成
         let process = new ProcessTool(GlobalConfig.getPython3(), [`${info.path}/${PY_SCRIPT_PATH}`, path.basename(info.path), url, version, info.path, GlobalConfig.getNode()]);
         process.exit_call_back = (code) => {
@@ -249,7 +250,7 @@ export class ProjectContent extends React.Component<Props, object> {
                 data.push(key);
             }
         }
-        let obj = JSON.parse(JSON.stringify({ mod: data, url: this._file_info.hotUpdateUrl, project_path: this._file_info.path }))
+        let obj = JSON.parse(JSON.stringify({ mod: data, url: this._file_info.hotUpdateUrl, project_path: this._file_info.path, path: this.file_path }));
         console.log(this._file_info);
         let res = {
             pathname: '/SubGameVersionCheck', state: obj,

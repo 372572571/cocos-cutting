@@ -25,6 +25,7 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
     private _mods: ModuleVersionInfo[] = [];
     private _lock: boolean = false;
     public state: { [key: string]: any } = {};
+    private _path: string = '';
 
 
     // 在渲染前调
@@ -42,11 +43,16 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button type="primary" onClick={this.save.bind(this)}>保存</Button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <Button type="primary" onClick={this.packMod.bind(this)}>压缩模块</Button>
         </div>;
     }
-    private async checkVersion(data: { mod: string[]; url: string; project_path: string }) {
+    private async checkVersion(data: { mod: string[]; url: string; project_path: string; path: string }) {
         if (!data) return;
         console.log(data.mod.length);
+        // data.mod.path
+        this._path = data.path;
+        console.log('this._path', this._path);
         let ver_cls = new VersionComparison();
         let res: ModuleVersionInfo[] = [];
         for (let i = 0; i < data.mod.length; i++) {
@@ -63,6 +69,7 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
             res.push((t as ModuleVersionInfo));
         }
         this._mods = res;
+        Dialog.ShowInfo({ title: "提示", content: "远端游戏对比完成！" });
         // console.log('jsw check', res);
         this.showModuleInfo(res);
     }
@@ -83,9 +90,11 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
         e.target.defaultValue = e.target.value;
     }
 
-    public save() {
+    public save(): void {
         if (this._lock) { return; }
         this._lock = true;
+        let file = FileTool.getFileContentByJson(this._path);
+
         for (let i = 0; i < this._mods.length; i++) {
             let t = FileTool.getFileContentByJson(this._mods[i].manifestPath);
             t.version = this._mods[i].nativeVerSion;
@@ -93,8 +102,22 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
             let v = FileTool.getFileContentByJson(this._mods[i].versionPath);
             v.version = this._mods[i].nativeVerSion;
             FileTool.saveFile(this._mods[i].versionPath, v);
+            file.modules[this._mods[i].name] = this._mods[i].nativeVerSion;
         }
+        FileTool.saveFile(this._path, file); // 本地配置修改
         Dialog.ShowInfo({ title: "提示", content: "修改完成！" });
         this._lock = false;
+    }
+
+    public packMod() {
+        let file = FileTool.getFileContentByJson(this._path);
+        // file
+        for (let key in file.modules) {
+            if (file.modules[key] && file.modules[key].isShield) {
+                // FileTool.zipDir(path.join(file.path, 'unpack', key), path.join(file.path, 'unpack', key), path.join(file.path, 'unpack'));
+                FileTool.zipDir(key, key, path.join(file.path, 'unpack'));
+            }
+        }
+        Dialog.ShowInfo({ title: "提示", content: "压缩完毕!" });
     }
 }

@@ -12,7 +12,9 @@
     "@types/react-router": "^5.0.3",
     "@types/react-router-dom": "^4.3.4",
     "@types/shelljs": "^0.8.5",
+    "adm-zip": "^0.4.13",
     "antd": "^3.20.7",
+    "archive": "0.0.2",
     "fs": "0.0.1-security",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -28,7 +30,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-start": "electron . true",
-    "package": "electron-packager . tool –darwin  --overwrite true –out /Users/liuyonglong/src/Electron/cocos-cutting –arch=x64 -electron-version=7.1.0 "
+    "package": "electron-packager . tool –darwin  --overwrite true –out /Users/liuyonglong/src/Electron/cocos-cutting –arch=x64 -electron-version=7.1.0 --icon=tool1.icns"
   },
   "eslintConfig": {
     "extends": "cocos工具"

@@ -84,8 +84,8 @@ class buildMain:
         process = subprocess.Popen(loginFirCmd, shell=True)
         process.wait()
 
-    def updateVersion(projectName, projectPath, hotUrl, version):
-        versionCmd = 'node ' + projectPath + '/version_generator.js -s ' + projectPath + \
+    def updateVersion(projectName, projectPath, hotUrl, version, nodepath):
+        versionCmd = nodepath+' ' + projectPath + '/version_generator.js -s ' + projectPath + \
             '/build/jsb-link -d ' + projectPath + '/assets -u ' + hotUrl + ' -v ' + version
         print(versionCmd)
         process = subprocess.Popen(versionCmd, shell=True)
@@ -131,6 +131,6 @@ if __name__ == '__main__':
     # buildMain.structureProject(cocosProjectPath)
     # buildMain.loginFirIm()
     buildMain.updateVersion(
-        sys.argv[1], sys.argv[4], sys.argv[2], sys.argv[3])
+        sys.argv[1], sys.argv[4], sys.argv[2], sys.argv[3], sys.argv[5])
 #    buildMain.buildXcodeProject(sys.argv[1], cocosProjectPath)
 #    buildMain.buildAndroidProject(sys.argv[1], cocosProjectPath)

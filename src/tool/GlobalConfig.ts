@@ -25,6 +25,13 @@ export class GlobalConfig {
         return res;
     }
 
+    /**
+     * 获取node全路径
+     *
+     * @static
+     * @returns {string}
+     * @memberof GlobalConfig
+     */
     public static getNode(): string {
         let res = 'node';
         let temp = FileTool.getFileContentByJson(GlobalConfig._globalConfigFilePth);
