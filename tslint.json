@@ -34,6 +34,7 @@
         "quotemark": false,
         "curly": false,
         "eofline": false,
+        "no-shadowed-variable":false,
         "max-classes-per-file": false
     },
     "rulesDirectory": [

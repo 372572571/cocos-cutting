@@ -13,9 +13,14 @@ md5 = electron.remote.require("crypto");
 
 export class FileTool {
 
+    public static initPath(): void {
+        shell.rm((window as any).dir_name);
+    }
+
     public static get md5() {
         return md5.createHash('md5');
     }
+
     // 设置非空文件
     public static setNotEmptyFIle(path: string, data: Object): Promise<any> {
         console.log("debug", path);

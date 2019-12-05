@@ -58,15 +58,17 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
         for (let i = 0; i < data.mod.length; i++) {
             console.log('data.mod[i],', data.mod[i]);
             let t = await ver_cls.versionCompared(data.mod[i], data.url, data.project_path);
-            if (t === 2) {
-                console.error('获取资源失败!');
-                continue;
+            switch (t) {
+                case 2:
+                    console.error('获取资源失败!');
+                    continue;
+                case 0:
+                    console.log('模块无变化', data.mod[i]);
+                    continue;
+                default:
+                    res.push((t as ModuleVersionInfo));
+                    break;
             }
-            if (t === 0) {
-                console.log('模块无变化', data.mod[i]);
-                continue;
-            }
-            res.push((t as ModuleVersionInfo));
         }
         this._mods = res;
         Dialog.ShowInfo({ title: "提示", content: "远端游戏对比完成！" });
@@ -102,7 +104,7 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
             let v = FileTool.getFileContentByJson(this._mods[i].versionPath);
             v.version = this._mods[i].nativeVerSion;
             FileTool.saveFile(this._mods[i].versionPath, v);
-            file.modules[this._mods[i].name] = this._mods[i].nativeVerSion;
+            file.modules[this._mods[i].name].version = this._mods[i].nativeVerSion;
         }
         FileTool.saveFile(this._path, file); // 本地配置修改
         Dialog.ShowInfo({ title: "提示", content: "修改完成！" });
@@ -118,6 +120,7 @@ export class SubGameVersionCheck extends React.Component<Props, object> {
                 FileTool.zipDir(key, key, path.join(file.path, 'unpack'));
             }
         }
+        FileTool.initPath();
         Dialog.ShowInfo({ title: "提示", content: "压缩完毕!" });
     }
 }
