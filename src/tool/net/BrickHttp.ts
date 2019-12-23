@@ -1,3 +1,4 @@
+
 export enum HTTP_METHOD {
     POST = 'POST',
     GET = 'GET',
@@ -25,7 +26,7 @@ interface IOC_Http {
 class HttpRely implements IOC_Http {
     public timeout: number = 10000; // 超时时间
     public baseURL: string; // 基础地址
-    public headers: { [key: string]: string } = { 'content-type': 'application/json' }
+    public headers: { [key: string]: string } = { 'content-type': 'application/json' };
 
     constructor(baseUrl: string, headers?: { [key: string]: string }, timeout?: number) {
         for (let i in headers) {
@@ -69,10 +70,6 @@ class HttpRely implements IOC_Http {
                     let response: any = xhr.responseText;
                     try {
                         response = JSON.parse(response);
-                        // 判断是否解析成功,如果还是字符串在解析一次
-                        // if (typeof response === 'string') {
-                        //     response = JSON.parse(response);
-                        // }
                         resolve(response);
                     } catch (error) {
                         // 可能数据是空的json解析报错
@@ -206,20 +203,51 @@ export class BrickHttp {
      * @param {(data: ArrayBuffer) => void} call
      * @memberof Http
      */
-    public static GetFileByArrayBuffer(url: string, call: (data: ArrayBuffer) => void) {
+    public static GetFileByArrayBuffer(url: string, call: (data: ArrayBuffer) => void, timeout: number = 2000) {
         let xhr = new XMLHttpRequest();
-
+        xhr.timeout = timeout; // 超时时间
         xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    xhr.responseType = 'arraybuffer';
-                    call && call(xhr.response);
-                } else {
-                    call && call(xhr.response);
-                }
+            if (xhr.readyState === 4 && (xhr.status >= 200 && xhr.status < 400)) {
+                xhr.responseType = 'arraybuffer';
+                call && call(xhr.response);
+            } else {
+                call && call(xhr.response);
             }
+
         };
         xhr.open("GET", url, true);
         xhr.send();
+    }
+
+    /**
+     * 测试下载速度
+     *
+     * @static
+     * @param {string} test_file 测试文件url
+     * @param {number} [time=1000]
+     * @returns {Promise<number>}
+     * @memberof BrickHttp
+     */
+    public static SpeedTest(test_file: string, time: number = 1000): Promise<number> {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            let s = setTimeout(() => {
+                resolve(0);
+                clearTimeout(s);
+                s = null;
+                xhr.abort();
+                return;
+            }, time);
+            xhr.onprogress = (event) => {
+                // event.loaded; // 在周期性调用中接受到了多少信息
+                // event.total;  // 该请求一共有多少信息
+                // 通常这个回调是50毫秒调用一次
+                resolve(event.loaded);
+                xhr.abort();
+                return;
+            };
+            xhr.open("GET", test_file, true);
+            xhr.send();
+        });
     }
 }

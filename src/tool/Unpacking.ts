@@ -111,7 +111,7 @@ export class Unpacking {
     private initModule(m: { [key: string]: ModuleItemInfo }): void {
         const res = [];
         if (!m) { return; }
-        for (const [key, val] of Object.entries(m)) {
+        for (const [, val] of Object.entries(m)) {// eslint-disable-line no-unused-vars
             if (!val.isShield) {
                 res.push(val.name);
             }

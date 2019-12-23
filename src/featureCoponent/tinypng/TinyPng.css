@@ -1,0 +1,16 @@
+.TinyPng_Body{
+    width: 100%;
+    height:92vh!important;
+    border:  5px solid #ffffff;
+    text-align:center;
+}
+
+.TinyPng_Add{
+    position:center;
+    margin: 0 10% 2% 10%;
+    background-color: silver;
+}
+
+.TinyPng_Icon{
+    position:center;
+}

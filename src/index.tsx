@@ -13,11 +13,13 @@ import 'antd/dist/antd.css';
 // -------------------------------------------------------------------
 import './index.css';
 // import App from './App';
-import {Index} from './home/Index';
+import { Index } from './home/Index';
 import * as serviceWorker from './serviceWorker';
+import { PipChild } from "../src/tool/net/PipChild";
 moment.locale('zh-cn'); // 设置文本中文
-ReactDOM.render(<Index/>, document.getElementById('root'));
-
+ReactDOM.render(<Index />, document.getElementById('root'));
+(window as any).pip_service = new PipChild((window as any).pip_service_path);
+console.log((window as any).pip_service);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

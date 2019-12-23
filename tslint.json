@@ -34,8 +34,10 @@
         "quotemark": false,
         "curly": false,
         "eofline": false,
-        "no-shadowed-variable":false,
-        "max-classes-per-file": false
+        "no-shadowed-variable": false,
+        "max-classes-per-file": false,
+        "no-unused-expression": false,
+        "no-unused-vars": 0
     },
     "rulesDirectory": [
         "src"

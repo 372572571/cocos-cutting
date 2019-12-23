@@ -6,6 +6,7 @@ import { ProjectList } from '../featureCoponent/projectList/ProjectList';
 import { ProjectContent } from '../featureCoponent/ProjectContent/ProjectContent';
 import { GlobalSetting } from '../featureCoponent/GlobalSetting/GlobalSetting';
 import { SubGameVersionCheck } from '../featureCoponent/SubGameVersionCheck/SubGameVersionCheck';
+import { TinyPng } from '../featureCoponent/tinypng/TinyPng';
 // import '../App.css'
 import './Index.css'
 // const supportsHistory = 'pushState' in window.history
@@ -37,6 +38,12 @@ export class Index extends React.Component<Props, object> {
                                 </Link>
                             </Menu.Item>
                             <Menu.Item onClick={this.goProjectList.bind(this)}>
+                                <Link to="/TinyPng">
+                                    <Icon type="setting" />
+                                    <span>TinyPng</span>
+                                </Link>
+                            </Menu.Item>
+                            <Menu.Item onClick={this.goProjectList.bind(this)}>
                                 <Link to="/globalSetting">
                                     <Icon type="setting" />
                                     <span>全局设置</span>
@@ -56,11 +63,12 @@ export class Index extends React.Component<Props, object> {
                             <Route exact path="/ProjectContent" component={ProjectContent} />
                             <Route exact path="/globalSetting" component={GlobalSetting} />
                             <Route exact path="/SubGameVersionCheck" component={SubGameVersionCheck} />
+                            <Route exact path="/TinyPng" component={TinyPng} />
                             {/* </Switch> */}
                         </Content>
 
                         {/* 底部 */}
-                        <Footer style={{ backgroundColor: 'silver', height: '8vh', marginLeft: '5px', marginRight: '5px' }}>
+                        <Footer style={{ position: 'relative', bottom: '0', backgroundColor: 'silver', height: '8vh', marginLeft: '5px', marginRight: '5px' }}>
 
                         </Footer>
                     </Layout>
@@ -70,9 +78,13 @@ export class Index extends React.Component<Props, object> {
         );
     }
 
-    public goProjectList(): void {
-        // this.context.router.history.push("/projectList");
-        // H.createBrowserHistory().push("/projectList");
-        // console.log('1111')
+    /**
+     *  渲染钱生命周期
+     */
+    public componentWillMount() {
+        // setTimeout(() => {
+        //     (window as any).pip_service.onSend({ Service: "123", data: { da: "123" } });
+        // }, 1000);
     }
+    public goProjectList() { }
 }

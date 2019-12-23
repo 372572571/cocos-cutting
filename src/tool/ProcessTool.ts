@@ -17,7 +17,7 @@ export class ProcessTool {
 
     public out_call_back: (data: any) => void = this.defaultCallBack; // 输出回调
 
-    private _command: ChildProcessWithoutNullStreams | ChildProcess | null = null;
+    protected _command: ChildProcessWithoutNullStreams | ChildProcess | null = null;
 
     constructor(command: any, ops: any[]) {
         // 异步地衍生子进程
@@ -40,5 +40,37 @@ export class ProcessTool {
 
         }
         console.log("默认回调", dataString);
+    }
+}
+
+/**
+ * Promise 执行命令
+ *
+ * @export
+ * @class ProcessPromise
+ * @extends {ProcessTool}
+ */
+export class ProcessPromise extends ProcessTool {
+    constructor(command: any, ops: any[]) {
+        super(command, ops);
+    }
+    // 执行
+    public end() {
+        return new Promise((resolve, reject) => {
+            let res: { [key: string]: any } | null = null;
+            let def: string = '{}';
+            if (this._command === null) {
+                reject('error: _command not null');
+                return;
+            }
+            this._command.stdout.on(EVENT_NAME_DATA, (data: Buffer) => {
+                def = data.toString();
+            });
+            this._command.stderr.on(EVENT_NAME_DATA, () => { reject(res); });
+            this._command.on(EVENT_NAME_CLOSE, () => {
+                res = JSON.parse(def);
+                resolve(res);
+            });
+        });
     }
 }

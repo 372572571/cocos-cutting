@@ -4,13 +4,16 @@ import _md5 from "crypto";
 // import _archive from "archive";
 
 const electron = (window as any).electron;
+
 let shell = shelljs;
 let fs = fsjs;
 let md5 = _md5
-shell = (electron.remote.require("shelljs"));
-fs = (electron.remote.require("fs"));
-md5 = electron.remote.require("crypto");
 
+if (true) {
+    shell = (electron.remote.require("shelljs"));
+    fs = (electron.remote.require("fs"));
+    md5 = electron.remote.require("crypto");
+}
 export class FileTool {
 
     public static initPath(): void {
