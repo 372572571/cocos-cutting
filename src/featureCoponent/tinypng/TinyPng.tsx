@@ -7,6 +7,7 @@ import { GlobalConfig } from '../../tool/GlobalConfig';
 export interface Props {
 }
 
+type listData = { path: string, over: boolean };
 // 添加项目 拖拽
 export class TinyPng extends React.Component<Props, object> {
     public state: { [key: string]: any } = {
@@ -16,49 +17,24 @@ export class TinyPng extends React.Component<Props, object> {
 
     private email: string | number = '372572571@qq.com';
 
-    // 初始化
-    public render() {
-        return <div className="TinyPng_Body">
-            <div className="TinyPng_Add" onDragOver={this.DragOver} onDrop={this.onDrop.bind(this)}>
-                <Row type="flex" justify="center" align="top">
-                    <Icon className="TinyPng_Icon" style={{ fontSize: '108px', color: '#fff' }} type="folder-add" />
-                </Row>
-            </div>
-            <div style={{ overflow: "scroll", height: "70vh" }}>
-                <List
-                    itemLayout="horizontal"
-                    dataSource={this.state.list_data}
-                    renderItem={item => (
-                        <List.Item>
-                            <List.Item.Meta
-                                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                title={<a href="https://ant.design">{item}</a>}
-                                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-                            />
-                        </List.Item>
-                    )}
-                />,
-            </div>
-        </div>;
-    }
-
     public DragOver(event: any): void {
         // event.persist();
         event.preventDefault(); // 防止默认 防止 onDrop 不会触发
     }
     public onDrop(event: any): void {
-        // console.log(event.dataTransfer.files[0].path);
-        window.pip_service.Send(
-            {
+        let arr = [];
+        for (let i = 0; i < event.dataTransfer.files.length; i++) {
+            window.pip_service.Send({
                 service: 'tinypngHandle',
                 data: {
                     email: this.email,
                     apiKey: this.apiKey,
-                    imgpath: event.dataTransfer.files[0].path,
+                    imgpath: event.dataTransfer.files[i].path,
                 },
-            },
-        );
-
+            });
+            arr.push({ path: event.dataTransfer.files[i].path, over: false });
+        }
+        this.setState({ list_data: Array.prototype.concat(arr, this.state.list_data) });
     }
 
     public componentWillMount() { // onload
@@ -74,5 +50,30 @@ export class TinyPng extends React.Component<Props, object> {
             console.log('接收监听:', data);
         }, this);
         // key tinypngHandle
+    }
+
+    public render() {
+        return <div className="TinyPng_Body">
+            <div className="TinyPng_Add" onDragOver={this.DragOver} onDrop={this.onDrop.bind(this)}>
+                <Row type="flex" justify="center" align="top">
+                    <Icon className="TinyPng_Icon" style={{ fontSize: '108px', color: '#fff' }} type="folder-add" />
+                </Row>
+            </div>
+            <div style={{ overflow: "scroll", height: "70vh" }}>
+                <List
+                    itemLayout="horizontal"
+                    dataSource={this.state.list_data}
+                    renderItem={item => (
+                        <List.Item>
+                            <List.Item.Meta
+                                // avatar={<Avatar src={(item as listData).path} />}
+                                title={<a href="#">{(item as listData).path}</a>}
+                                description={(item as listData).over}
+                            />
+                        </List.Item>
+                    )}
+                />,
+            </div>
+        </div>;
     }
 }
