@@ -15,11 +15,10 @@ import './index.css';
 // import App from './App';
 import { Index } from './home/Index';
 import * as serviceWorker from './serviceWorker';
-import { PipChild } from "../src/tool/net/PipChild";
+import { PipConnection } from "./tool/common/PipConnection";
 moment.locale('zh-cn'); // 设置文本中文
 ReactDOM.render(<Index />, document.getElementById('root'));
-(window as any).pip_service = new PipChild((window as any).pip_service_path);
-console.log((window as any).pip_service);
+(window as any).pip_service = new PipConnection((window as any).pip_service_path);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

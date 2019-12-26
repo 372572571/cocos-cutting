@@ -51,9 +51,6 @@ export class ProcessTool {
  * @extends {ProcessTool}
  */
 export class ProcessPromise extends ProcessTool {
-    constructor(command: any, ops: any[]) {
-        super(command, ops);
-    }
     // 执行
     public end() {
         return new Promise((resolve, reject) => {

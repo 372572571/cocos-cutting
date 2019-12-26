@@ -3,19 +3,7 @@
 import * as React from 'react';
 import './TinyPng.css';
 import { Icon, Row, List, Avatar } from 'antd';
-import path_js from 'path';
-// import { Tinify } from '../../tool/tinify-nodejs/src/index';
-import fsjs from "fs";
-import { FileTool } from '../../tool/FileTool';
-import { ProcessPromise } from '../../tool/ProcessTool';
 
-const electron = (window as any).electron;
-let path = path_js;
-let fs = fsjs;
-if (true) { // 这里的操作是要把 electron 导出的功能覆盖到path上,这样使用 代码会提示
-    fs = (electron.remote.require('fs'));
-    path = (electron.remote.require('path'));
-}
 export interface Props {
 }
 
@@ -59,12 +47,7 @@ export class TinyPng extends React.Component<Props, object> {
     }
     public onDrop(event: any): void {
         // console.log(event.dataTransfer.files[0].path);
-        // let cmd = new ProcessPromise(path.join((window as any).dir_name, 'tinypng'), [event.dataTransfer.files[0].path]);
-        // cmd.end().then(res => {
-        //     console.log('成功', res);
-        // }).catch(err => {
-        //     console.log('失败', err);
-        // });
-    }
+        window.pip_service.Send({ service: 'tinypngHandle', data: { email: '372572571@qq.com', apiKey: 'zXcGGgJ4spfcnrcWtnFnw0KMXJNYhfkP', imgpath: event.dataTransfer.files[0].path } });
 
+    }
 }

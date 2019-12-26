@@ -7,6 +7,7 @@ import { ProjectContent } from '../featureCoponent/ProjectContent/ProjectContent
 import { GlobalSetting } from '../featureCoponent/GlobalSetting/GlobalSetting';
 import { SubGameVersionCheck } from '../featureCoponent/SubGameVersionCheck/SubGameVersionCheck';
 import { TinyPng } from '../featureCoponent/tinypng/TinyPng';
+import { PipConnection } from '../tool/common/PipConnection';
 // import '../App.css'
 import './Index.css'
 // const supportsHistory = 'pushState' in window.history
@@ -83,7 +84,9 @@ export class Index extends React.Component<Props, object> {
      */
     public componentWillMount() {
         // setTimeout(() => {
-        //     (window as any).pip_service.onSend({ Service: "123", data: { da: "123" } });
+        //     let service: PipConnection = window.pip_service;
+        //     service.Send({ Service: "123", data: { da: "123" } });
+
         // }, 1000);
     }
     public goProjectList() { }

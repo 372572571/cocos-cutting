@@ -89,11 +89,11 @@ export class FileTool {
 
 export function ArrayMd5(data: any) {
     // for test/debug
-    function fflog(msg: any) {
-        try {
-            console.log(msg);
-        } catch (e) { }
-    }
+    // function fflog(msg: any) {
+    //     try {
+    //         console.log(msg);
+    //     } catch (e) { }
+    // }
 
     // convert number to (unsigned) 32 bit hex, zero filled string
     function to_zerofilled_hex(n: any) {

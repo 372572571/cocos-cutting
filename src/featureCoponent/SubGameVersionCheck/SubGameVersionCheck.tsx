@@ -1,8 +1,7 @@
 /// <reference types="electron" />
 import './SubGameVersionCheck.css';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
-import { Descriptions, Input, Badge, List, Avatar, Button } from 'antd';
+import { Descriptions, Input, Button } from 'antd';
 import path_js from 'path';
 import { FileTool } from '../../tool/FileTool';
 import { VersionComparison, ModuleVersionInfo } from '../../tool/VersionComparison';
