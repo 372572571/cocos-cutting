@@ -3,18 +3,19 @@
 import * as React from 'react';
 import './TinyPng.css';
 import { Icon, Row, List, Avatar } from 'antd';
-
+import { GlobalConfig } from '../../tool/GlobalConfig';
 export interface Props {
 }
 
 // 添加项目 拖拽
 export class TinyPng extends React.Component<Props, object> {
     public state: { [key: string]: any } = {
-        list_data: ["not"],
+        list_data: [],
     };
-    private apiKey: string = 'zXcGGgJ4spfcnrcWtnFnw0KMXJNYhfkP';
+    private apiKey: string | number = 'zXcGGgJ4spfcnrcWtnFnw0KMXJNYhfkP';
 
-    private email: string = '372572571@qq.com';
+    private email: string | number = '372572571@qq.com';
+
     // 初始化
     public render() {
         return <div className="TinyPng_Body">
@@ -61,5 +62,17 @@ export class TinyPng extends React.Component<Props, object> {
     }
 
     public componentWillMount() { // onload
+        // 获取api调用凭证初始化
+        this.apiKey = GlobalConfig.fileConfigJson['apikey'] ? GlobalConfig.fileConfigJson['apikey'] : this.apiKey;
+        this.email = GlobalConfig.fileConfigJson['email'] ? GlobalConfig.fileConfigJson['email'] : this.email;
+        // 初始化事件监听
+        this.initEvent();
+    }
+
+    private initEvent() {
+        window.pip_service.eventBus.AddListener('tinypngHandle', (data: any) => {
+            console.log('接收监听:', data);
+        }, this);
+        // key tinypngHandle
     }
 }

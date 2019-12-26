@@ -7,6 +7,10 @@ export class PipConnection {
 
     private _eventBus: EventBus | null = null;
 
+    public get eventBus(): EventBus {
+        return this._eventBus;
+    }
+
     constructor(pip: string) {
         this._eventBus = new EventBus();
         this._client = new PipClient(pip);
@@ -27,7 +31,15 @@ export class PipConnection {
     }
 
     protected onMessage(str: string) {
-        console.log('onmessage', JSON.parse(str));
+        try {
+            let info = JSON.parse(str);
+            if (info.Service)
+                this._eventBus.Dispatch(info.Service, info);
+            else
+                console.log('def onmessage', info);
+        } catch (error) {
+            console.error('onmessage error', str);
+        }
     }
 
     protected onError(err: any) {

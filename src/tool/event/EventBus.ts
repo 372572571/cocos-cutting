@@ -26,7 +26,7 @@ export class EventBus {
      * @memberof EventBus
      */
     public AddListener(event: string, call: _callback, target: any = null): void {
-        if (typeof this._listeners[event] === undefined || this._listeners[event] === null) {
+        if (this._listeners[event] === undefined || this._listeners[event] === null) {
             this._listeners[event] = [{ scope: target, callback: call }];
         } else {
             this._listeners[event].push({ scope: target, callback: call });
@@ -53,7 +53,7 @@ export class EventBus {
      * @param target 监听人
      */
     private removeListenerByEventTarget(event: string, target: any): void {
-        if (typeof this._listeners[event] === undefined || this._listeners[event] === null) {
+        if (this._listeners[event] === undefined || this._listeners[event] === null) {
             let len = this._listeners[event].length - 1;
             for (let i = len; i >= 0; i--) {
                 if (this._listeners[event][i] && this._listeners[event][i].scope === target) {
@@ -107,7 +107,7 @@ export class EventBus {
             if (!item_scope) {
                 call && call(args);
             } else {
-                call.apply(this._listeners[event][i].scope, args);
+                call.apply(this._listeners[event][i].scope, [args]);
             }
         }
         return true;
