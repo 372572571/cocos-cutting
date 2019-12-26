@@ -46,6 +46,15 @@ export class GlobalSetting extends React.Component<Props, object> {
                 </Descriptions.Item>
             </Descriptions>
             <br />
+            <Descriptions title="tinypng api 凭证" bordered>
+                <Descriptions.Item label="注册邮箱" span={1}>
+                    <Input id='email' defaultValue={this._config_data.python3} onChange={this.upDateConfig.bind(this)} />
+                </Descriptions.Item>
+                <Descriptions.Item label="apiKey" span={1}>
+                    <Input id='apikey' defaultValue={this._config_data.node} onChange={this.upDateConfig.bind(this)} />
+                </Descriptions.Item>
+            </Descriptions>
+            <br />
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button type="primary" onClick={this.save.bind(this)}>保存</Button>
@@ -61,14 +70,7 @@ export class GlobalSetting extends React.Component<Props, object> {
 
     public save() {
         // 保存配置
-        console.log('path.join((window as any).dir_name, `config.json`)', path.join((window as any).dir_name, `config.json`));
         FileTool.saveFile(path.join((window as any).dir_name, `config.json`), this._config_data);
-        Dialog.ShowInfo({ title: '提示', content: '保存结束' });
+        Dialog.ShowInfo({ title: '提示', content: '保存结束' + path.join((window as any).dir_name) });
     }
-}
-
-interface ConfigJson {
-    python3?: string; // python3 路径
-    adb?: string; // android adb 路径
-    node?: string;
 }

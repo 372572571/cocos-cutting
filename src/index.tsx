@@ -18,6 +18,7 @@ import * as serviceWorker from './serviceWorker';
 import { PipConnection } from "./tool/common/PipConnection";
 moment.locale('zh-cn'); // 设置文本中文
 ReactDOM.render(<Index />, document.getElementById('root'));
+// 初始化管道连接
 (window as any).pip_service = new PipConnection((window as any).pip_service_path);
 
 // If you want your app to work offline and load faster, you can change

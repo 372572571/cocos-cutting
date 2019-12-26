@@ -83,11 +83,6 @@ export class Index extends React.Component<Props, object> {
      *  渲染钱生命周期
      */
     public componentWillMount() {
-        // setTimeout(() => {
-        //     let service: PipConnection = window.pip_service;
-        //     service.Send({ Service: "123", data: { da: "123" } });
-
-        // }, 1000);
     }
     public goProjectList() { }
 }

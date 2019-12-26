@@ -12,10 +12,10 @@ export class TinyPng extends React.Component<Props, object> {
     public state: { [key: string]: any } = {
         list_data: ["not"],
     };
-    // 初始化
-    public componentWillMount() {
-    }
+    private apiKey: string = 'zXcGGgJ4spfcnrcWtnFnw0KMXJNYhfkP';
 
+    private email: string = '372572571@qq.com';
+    // 初始化
     public render() {
         return <div className="TinyPng_Body">
             <div className="TinyPng_Add" onDragOver={this.DragOver} onDrop={this.onDrop.bind(this)}>
@@ -47,7 +47,19 @@ export class TinyPng extends React.Component<Props, object> {
     }
     public onDrop(event: any): void {
         // console.log(event.dataTransfer.files[0].path);
-        window.pip_service.Send({ service: 'tinypngHandle', data: { email: '372572571@qq.com', apiKey: 'zXcGGgJ4spfcnrcWtnFnw0KMXJNYhfkP', imgpath: event.dataTransfer.files[0].path } });
+        window.pip_service.Send(
+            {
+                service: 'tinypngHandle',
+                data: {
+                    email: this.email,
+                    apiKey: this.apiKey,
+                    imgpath: event.dataTransfer.files[0].path,
+                },
+            },
+        );
 
+    }
+
+    public componentWillMount() { // onload
     }
 }
