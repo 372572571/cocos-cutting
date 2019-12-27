@@ -38,9 +38,22 @@ export class PipClient {
         this._conn.stdin.write(b);
     }
 
+    /**
+     * 收到消息回调
+     *
+     * @protected
+     * @param {Buffer} message
+     * @memberof PipClient
+     */
     protected _onMessage(message: Buffer) {
-        if (this.onMessage) {
-            this.onMessage(message.toString());
+        let buf: any[] = [];
+        for (let i = 0; i < message.length; i++) {
+            buf.push(message[i]);
+            if (message[i] === 10) { // 匹配换行符 防止多条数据串在一起,换行符分割
+                let ms = new Buffer(buf);
+                this.onMessage(ms.toString());
+                buf = [];
+            }
         }
     }
 

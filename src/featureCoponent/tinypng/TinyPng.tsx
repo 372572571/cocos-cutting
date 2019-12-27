@@ -7,12 +7,14 @@ import { GlobalConfig } from '../../tool/GlobalConfig';
 export interface Props {
 }
 
-type listData = { path: string, over: boolean };
+type listData = { path: string; over: boolean };
+type taskOverData = { Code: number; data: { [key: string]: any }; Service: string };
 // 添加项目 拖拽
 export class TinyPng extends React.Component<Props, object> {
     public state: { [key: string]: any } = {
         list_data: [],
     };
+
     private apiKey: string | number = 'zXcGGgJ4spfcnrcWtnFnw0KMXJNYhfkP';
 
     private email: string | number = '372572571@qq.com';
@@ -21,6 +23,7 @@ export class TinyPng extends React.Component<Props, object> {
         // event.persist();
         event.preventDefault(); // 防止默认 防止 onDrop 不会触发
     }
+
     public onDrop(event: any): void {
         let arr = [];
         for (let i = 0; i < event.dataTransfer.files.length; i++) {
@@ -45,11 +48,25 @@ export class TinyPng extends React.Component<Props, object> {
         this.initEvent();
     }
 
+    /**
+     * 初始化事件
+     */
     private initEvent() {
         window.pip_service.eventBus.AddListener('tinypngHandle', (data: any) => {
             console.log('接收监听:', data);
         }, this);
-        // key tinypngHandle
+    }
+
+    /**
+     * 销毁事件监听
+     */
+    public componentWillUnmount() {
+        window.pip_service.eventBus.RemoveListenerByTarget(this);
+    }
+
+    // 接收一个任务完成
+    private taskOver(res: taskOverData) {
+
     }
 
     public render() {
@@ -72,7 +89,7 @@ export class TinyPng extends React.Component<Props, object> {
                             />
                         </List.Item>
                     )}
-                />,
+                />
             </div>
         </div>;
     }

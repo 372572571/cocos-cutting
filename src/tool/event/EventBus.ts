@@ -43,6 +43,7 @@ export class EventBus {
     public RemoveListenerByTarget(target: any): void {
         if (!target) return;
         for (let event in this._listeners) {
+            console.log(event);
             this.removeListenerByEventTarget(event, target);
         }
     }
@@ -53,11 +54,12 @@ export class EventBus {
      * @param target 监听人
      */
     private removeListenerByEventTarget(event: string, target: any): void {
-        if (this._listeners[event] === undefined || this._listeners[event] === null) {
+        if (this._listeners[event] !== undefined || this._listeners[event] !== null) {
             let len = this._listeners[event].length - 1;
             for (let i = len; i >= 0; i--) {
                 if (this._listeners[event][i] && this._listeners[event][i].scope === target) {
                     this._listeners[event].splice(i, 1); // 删除元素
+                    console.log('删除对应监听');
                 }
             }
         }
