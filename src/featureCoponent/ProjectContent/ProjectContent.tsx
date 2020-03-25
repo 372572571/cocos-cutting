@@ -41,6 +41,7 @@ export class ProjectContent extends React.Component<Props, object> {
         project_module: [],
         project_versions: [],
     };
+    private _mid: number = null;
 
     private _lock: boolean = false;
 
@@ -80,8 +81,11 @@ export class ProjectContent extends React.Component<Props, object> {
                 <Descriptions.Item label="热更新主版本" span={3}>
                     <Input defaultValue={this._file_info.version ? this._file_info.version : _NOT} onChange={this.updateRootVersion.bind(this)} />
                 </Descriptions.Item>
+                <Descriptions.Item label="商户号" span={3}>
+                    <Input onChange={this.updateMID.bind(this)} />
+                </Descriptions.Item>
             </Descriptions>
-
+            <br />
             <br />
             <Button type="primary" onClick={this.save.bind(this)}>保存</Button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -189,6 +193,10 @@ export class ProjectContent extends React.Component<Props, object> {
     private updateHotUpdateUrl(e: any) {
         this._file_info.hotUpdateUrl = e.target.value;
     }
+    // 更新商户
+    private updateMID(e: any) {
+        this._mid = e.target.value;
+    }
 
     // 更新热更新版本
     private updateRootVersion(e: any) {
@@ -204,6 +212,12 @@ export class ProjectContent extends React.Component<Props, object> {
 
     // 注意手动构建项目一次
     public runScript() {
+        if (!this._mid) {
+            Dialog.ShowError({ title: '错误的商户', content: `商户不能为空!` });
+            return;
+        } else {
+            Dialog.ShowInfo({ title: '确认商户信息', content: `商户编号: ${this._mid}` });
+        }
         if (this._lock) return;
         this._lock = true;
         let info = this._file_info;
@@ -228,6 +242,8 @@ export class ProjectContent extends React.Component<Props, object> {
                     Dialog.ShowInfo({
                         title: '提示', content: `${res}`,
                     });
+                    // 商户文件丢到app中
+                    this.createMIDFile();
                     this._lock = false;
                 };
                 unpack.build(); // 开始切割
@@ -257,6 +273,15 @@ export class ProjectContent extends React.Component<Props, object> {
         };
         this._lock = false;
         return res;
+    }
+
+    // 创建商户版号
+    public createMIDFile(): void {
+        let mid_content = {
+            MID: this._mid, // 商户id
+            UT: new Date().getTime(), // 创建时间
+        };
+        FileTool.saveFile(path.join(`${this._file_info.path}`, "/build/jsb-link/res/raw-assets/MID.VERSION"), mid_content);
     }
 }
 

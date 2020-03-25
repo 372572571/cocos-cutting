@@ -38,12 +38,12 @@ export class Index extends React.Component<Props, object> {
                                     <span>项目列表</span>
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item onClick={this.goProjectList.bind(this)}>
+                            {/* <Menu.Item onClick={this.goProjectList.bind(this)}>
                                 <Link to="/TinyPng">
                                     <Icon type="setting" />
                                     <span>TinyPng</span>
                                 </Link>
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item onClick={this.goProjectList.bind(this)}>
                                 <Link to="/globalSetting">
                                     <Icon type="setting" />

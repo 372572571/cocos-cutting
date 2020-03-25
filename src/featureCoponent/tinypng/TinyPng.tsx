@@ -40,6 +40,9 @@ export class TinyPng extends React.Component<Props, object> {
         this.setState({ list_data: Array.prototype.concat(arr, this.state.list_data) });
     }
 
+    /**
+     *  onLoad
+     */
     public componentWillMount() { // onload
         // 获取api调用凭证初始化
         this.apiKey = GlobalConfig.fileConfigJson['apikey'] ? GlobalConfig.fileConfigJson['apikey'] : this.apiKey;
@@ -52,9 +55,9 @@ export class TinyPng extends React.Component<Props, object> {
      * 初始化事件
      */
     private initEvent() {
-        window.pip_service.eventBus.AddListener('tinypngHandle', (data: any) => {
-            console.log('接收监听:', data);
-        }, this);
+        // window.pip_service.eventBus.AddListener('tinypngHandle', (data: any) => {
+        //     console.log('接收监听:', data);
+        // }, this);
     }
 
     /**
@@ -69,6 +72,7 @@ export class TinyPng extends React.Component<Props, object> {
 
     }
 
+    // ui
     public render() {
         return <div className="TinyPng_Body">
             <div className="TinyPng_Add" onDragOver={this.DragOver} onDrop={this.onDrop.bind(this)}>
@@ -83,7 +87,7 @@ export class TinyPng extends React.Component<Props, object> {
                     renderItem={item => (
                         <List.Item>
                             <List.Item.Meta
-                                // avatar={<Avatar src={(item as listData).path} />}
+                                avatar={<Avatar src={(item as listData).path} />}
                                 title={<a href="#">{(item as listData).path}</a>}
                                 description={(item as listData).over}
                             />

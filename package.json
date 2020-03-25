@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "electron": "^7.1.0",
-    "electron-packager": "^14.1.0"
+    "electron-packager": "^14.0.3"
   },
   "homepage": "."
 }
