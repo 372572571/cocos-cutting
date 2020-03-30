@@ -42,6 +42,7 @@ export class ProjectContent extends React.Component<Props, object> {
         project_versions: [],
     };
     private _mid: number = null;
+    private _mids: string = null;
 
     private _lock: boolean = false;
 
@@ -83,6 +84,9 @@ export class ProjectContent extends React.Component<Props, object> {
                 </Descriptions.Item>
                 <Descriptions.Item label="商户号" span={3}>
                     <Input onChange={this.updateMID.bind(this)} />
+                </Descriptions.Item>
+                <Descriptions.Item label="多热更支持商户号(商户号,分开)" span={3}>
+                    <Input onChange={this.updateMIDS.bind(this)} />
                 </Descriptions.Item>
             </Descriptions>
             <br />
@@ -197,6 +201,9 @@ export class ProjectContent extends React.Component<Props, object> {
     private updateMID(e: any) {
         this._mid = e.target.value;
     }
+    private updateMIDS(e: any) {
+        this._mids = e.target.value;
+    }
 
     // 更新热更新版本
     private updateRootVersion(e: any) {
@@ -217,6 +224,11 @@ export class ProjectContent extends React.Component<Props, object> {
             return;
         } else {
             Dialog.ShowInfo({ title: '确认商户信息', content: `商户编号: ${this._mid}` });
+        }
+
+        if (this._mids.length === 0) {
+            Dialog.ShowInfo({ title: '热更支持商户为空', content: '热更支持商户不能为空' });
+            return;
         }
         if (this._lock) return;
         this._lock = true;
@@ -242,8 +254,10 @@ export class ProjectContent extends React.Component<Props, object> {
                     Dialog.ShowInfo({
                         title: '提示', content: `${res}`,
                     });
-                    // 商户文件丢到app中
+                    // 商户文件丢到app
                     this.createMIDFile();
+                    // 热更支持商户
+                    this.createUpdateMIDS();
                     this._lock = false;
                 };
                 unpack.build(); // 开始切割
@@ -282,6 +296,14 @@ export class ProjectContent extends React.Component<Props, object> {
             UT: new Date().getTime(), // 创建时间
         };
         FileTool.saveFile(path.join(`${this._file_info.path}`, "/build/jsb-link/res/raw-assets/MID.VERSION"), mid_content);
+    }
+    // 热更支持商户
+    public createUpdateMIDS(): void {
+        let mids = {
+            MIDS: this._mids.split(','),
+            UT: new Date().getTime(), // 创建时间
+        };
+        FileTool.saveFile(path.join(`${this._file_info.path}`, "/unpack/MIDS.VERSION"), mids);
     }
 }
 
