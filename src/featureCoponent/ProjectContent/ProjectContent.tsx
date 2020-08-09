@@ -10,6 +10,7 @@ import { ProcessTool } from '../../tool/ProcessTool';
 import { Unpacking } from '../../tool/Unpacking';
 import { GlobalConfig } from '../../tool/GlobalConfig';
 import { Dialog } from '../../tool/Dialog';
+import { VersionDescription } from '../versionDescription/VersionDescription';
 // python 脚本路径
 const PY_SCRIPT_PATH = 'build/jsb-link/frameworks/runtime-src/proj.android-studio/cocosBuild.py';
 const electron = (window as any).electron;
@@ -26,6 +27,7 @@ interface state {
     project_path: string;
     project_module: any[];
     project_versions: any[];
+    isVersionDescription: boolean; // 是否开启编辑
 }
 
 const _NOT: string = "N/A";
@@ -34,12 +36,14 @@ const _NOT: string = "N/A";
 export class ProjectContent extends React.Component<Props, object> {
     private suffix: string = ".cocos_project";
     private file_path: string = '';
+    private text_content: string = '';
     public state: state = {
         project_name: _NOT,
         project_version: _NOT,
         project_path: _NOT,
         project_module: [],
         project_versions: [],
+        isVersionDescription: false,
     };
     private _mid: number = null;
     private _mids: string = null;
@@ -59,6 +63,11 @@ export class ProjectContent extends React.Component<Props, object> {
 
     public render() {
         return <div className="ProjectContent_Body">
+            <VersionDescription isShow={this.state.isVersionDescription}
+                tagObj={this}
+                onOk={this.saveVersionDescription}
+                onCancel={this.openTextEdit.bind(this)}
+            ></VersionDescription>
             <Descriptions title="游戏信息" bordered>
                 <Descriptions.Item label="Game Name" span={2}>{this._file_info.name ? this._file_info.name : _NOT}</Descriptions.Item>
                 <Descriptions.Item label="Version">{this._file_info.version ? this._file_info.version : _NOT}</Descriptions.Item>
@@ -95,7 +104,9 @@ export class ProjectContent extends React.Component<Props, object> {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Button type="primary" onClick={this.runScript.bind(this)}>分包开始</Button>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <Link to={this.toVersionCheck()}>
+            <Button type="primary" onClick={this.openTextEdit.bind(this)}>版本描述编辑</Button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <Link to={this.toVersionCheck()}>
                 <Button type="primary">VersionCheck</Button>
             </Link>
 
@@ -204,6 +215,23 @@ export class ProjectContent extends React.Component<Props, object> {
     private updateMIDS(e: any) {
         this._mids = e.target.value;
     }
+    // 开关 版本描述
+    private openTextEdit() {
+        console.log('this.state.isVersionDescription', this.state.isVersionDescription);
+        switch (this.state.isVersionDescription) {
+            case false:
+                this.setState({ isVersionDescription: true });
+                break;
+            default:
+                this.setState({ isVersionDescription: false });
+        }
+    }
+    private saveVersionDescription(e: VersionDescription): void {
+
+        let str: string = e.state.outputHTML;
+        this.text_content = str;
+        console.log('SaveVersionDescription', this.text_content);
+    }
 
     // 更新热更新版本
     private updateRootVersion(e: any) {
@@ -225,7 +253,10 @@ export class ProjectContent extends React.Component<Props, object> {
         } else {
             Dialog.ShowInfo({ title: '确认商户信息', content: `商户编号: ${this._mid}` });
         }
-
+        if (!this.text_content) {
+            Dialog.ShowError({ title: '版本描述错误', content: `版本描述错误 描述不能为空!` });
+            return;
+        }
         if (this._mids.length === 0) {
             Dialog.ShowInfo({ title: '热更支持商户为空', content: '热更支持商户不能为空' });
             return;
@@ -302,6 +333,7 @@ export class ProjectContent extends React.Component<Props, object> {
         let mids = {
             MIDS: this._mids.split(','),
             UT: new Date().getTime(), // 创建时间
+            TEXT: String(this.text_content),
         };
         FileTool.saveFile(path.join(`${this._file_info.path}`, "/unpack/MIDS.VERSION"), mids);
     }
